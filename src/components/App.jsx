@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { useSelector } from 'react-redux';
 
 const initialState = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -25,6 +26,10 @@ export default function App() {
     const { value } = e.target;
     setFilter(value);
   };
+
+  const oleh = useSelector(state => state.tours);
+
+  console.log(oleh);
 
   const handleSubmit = date => {
     const id = nanoid();

@@ -3,7 +3,7 @@ import { devToolsEnhancer } from '@redux-devtools/extension';
 
 const initialState = {
   tours: {
-    total: 20,
+    total: 10,
     items: [],
   },
 };
