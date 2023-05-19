@@ -1,20 +1,19 @@
 import propTypes from 'prop-types';
 import React, { useState } from 'react';
 import css from './ContactForm.module.css';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../store/contactSlice';
 
 export default function ContactForm({ handleSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  // const handleChange = e => {
-  //   const { name, value } = e.target;
-  //   this.setState({ [name]: value });
-  // };
+  const dispatch = useDispatch();
 
   const handleFormSubmit = e => {
     e.preventDefault();
 
     handleSubmit({ name: name, number: number });
+    dispatch(addContact({ name, number }));
   };
 
   const handleChangeName = e => {

@@ -1,35 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { useSelector } from 'react-redux';
-
-const initialState = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
+import { getFilterValue } from 'store/selectors';
+import { getContacts } from 'store/selectors';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../store/contactSlice';
 
 export default function App() {
-  const [contacts, setContacts] = useState(
-    () => JSON.parse(localStorage.getItem('contactList')) ?? initialState
-  );
+  const filterValue = useSelector(getFilterValue);
+  const contactValue = useSelector(getContacts);
+  const dispatch = useDispatch();
 
+  const [contacts, setContacts] = useState(contactValue);
   const [filter, setFilter] = useState('');
-  useEffect(() => {
-    localStorage.setItem('contactList', JSON.stringify(contacts));
-  }, [contacts]);
 
   const handleChange = e => {
-    const { value } = e.target;
-    setFilter(value);
+    setFilter(filterValue);
   };
-
-  const oleh = useSelector(state => state.tours);
-
-  console.log(oleh);
 
   const handleSubmit = date => {
     const id = nanoid();
@@ -48,11 +38,12 @@ export default function App() {
 
   const handleDelete = date => {
     setContacts(contacts.filter(contact => contact.id !== date));
+    dispatch(deleteContact(date));
   };
 
   const getFilteredContacts = () => {
     const filterContactsList = contacts.filter(contact => {
-      return contact.name.toLowerCase().includes(filter.toLowerCase());
+      return contact.name.toLowerCase().includes(filterValue.toLowerCase());
     });
     return filterContactsList;
   };
