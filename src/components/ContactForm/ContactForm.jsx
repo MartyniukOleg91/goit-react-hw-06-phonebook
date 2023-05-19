@@ -9,9 +9,15 @@ export default function ContactForm() {
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
 
+  const reset = () => {
+    setName('');
+    setNumber('');
+  };
+
   const handleFormSubmit = e => {
     e.preventDefault();
     dispatch(addContact({ name, number }));
+    reset();
   };
 
   const handleChangeName = e => {
