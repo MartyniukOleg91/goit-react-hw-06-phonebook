@@ -1,12 +1,27 @@
 import propTypes from 'prop-types';
 import css from './ContactList.module.css';
+import { useSelector } from 'react-redux';
+import { getContacts, getFilterValue } from 'store/selectors';
+import { deleteContact } from '../../store/contactSlice';
+import { useDispatch } from 'react-redux';
 
+export const ContactList = () => {
+  const contactValue = useSelector(getContacts);
+  const dispatch = useDispatch();
+  const handleDelete = date => {
+    dispatch(deleteContact(date));
+  };
 
-export const ContactList = ({ contacts, handleDelete }) => {
+  const filterValue = useSelector(getFilterValue);
+
+  const visibleContacts = contactValue.filter(contact =>
+    contact.name.toLowerCase().includes(filterValue.toLowerCase())
+  );
+
   return (
     <div className={css.wraperContactList}>
       <ul className={css.contactList}>
-        {contacts.map((contact, id) => (
+        {visibleContacts.map((contact, id) => (
           <li key={id} className={css.contactListItem}>
             {contact.name}: {contact.number}
             <button

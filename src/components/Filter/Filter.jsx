@@ -1,16 +1,14 @@
+import React from 'react';
 import propTypes from 'prop-types';
 import css from './Filter.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { changeValue } from 'store/filterSlice';
-import { getFilterValue } from 'store/selectors';
+import { getFilterValue } from '../../store/selectors';
 
-export const Filter = () => {
+const Filter = () => {
   const filterValue = useSelector(getFilterValue);
-
   const dispatch = useDispatch();
-
-  
 
   return (
     <div>
@@ -26,6 +24,8 @@ export const Filter = () => {
     </div>
   );
 };
+
+export default Filter;
 
 Filter.propTypes = {
   filter: propTypes.string.isRequired,

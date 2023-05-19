@@ -4,15 +4,13 @@ import css from './ContactForm.module.css';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../store/contactSlice';
 
-export default function ContactForm({ handleSubmit }) {
+export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
 
   const handleFormSubmit = e => {
     e.preventDefault();
-
-    handleSubmit({ name: name, number: number });
     dispatch(addContact({ name, number }));
   };
 
