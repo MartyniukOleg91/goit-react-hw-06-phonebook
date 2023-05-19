@@ -1,13 +1,23 @@
 import propTypes from 'prop-types';
 import React, { useState } from 'react';
 import css from './ContactForm.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../store/contactSlice';
+import { getContacts } from '../../store/selectors';
+import { toast } from 'react-toastify';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+  const notify = () =>
+    toast.info('contact has been added!', {
+      position: 'top-center',
+      autoClose: 3000,
+      closeOnClick: true,
+      pauseOnHover: true,
+    });
 
   const reset = () => {
     setName('');
@@ -16,6 +26,16 @@ export default function ContactForm() {
 
   const handleFormSubmit = e => {
     e.preventDefault();
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      notify();
+      reset();
+      return;
+    }
+
     dispatch(addContact({ name, number }));
     reset();
   };
